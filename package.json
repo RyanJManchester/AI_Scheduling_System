@@ -1,0 +1,21 @@
+{
+    "name": "ai_sheduling_system",
+    "version": "1.0.0",
+    "description": "Project with FastAPI backend and TypeScript frontend to deliver a gui, it uses OpenAPI to help control logic and optimise the booking inspection process on behalf of council administrators to remove overhead.",
+    "main": "backend/main.py",
+    "scripts": {
+      "build:ts": "tsc --project ./frontend/tsconfig.json",
+      "start:backend": "python backend/main.py",
+      "start:frontend": "lite-server --baseDir=frontend",
+      "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+      "test:frontend": "jest tests/test_frontend.ts",
+      "test:backend": "pytest tests/test_backend.py",
+      "test": "npm run test:backend && npm run test:frontend",
+      "clean": "rm frontend/dist/*"
+    },
+    "dependencies": {
+    },
+    "devDependencies": {
+      "typescript": "^5.6.3"
+    }
+  }
