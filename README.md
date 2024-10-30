@@ -39,38 +39,32 @@ Open your command line (Windows Command Prompt, or Terminal on macOS/Linux).
 <details>
     <summary> Details about the folder structure for the repository</summary>
 
-**package.json**
-specifies all the metadata, dependencies, scripts and npm build commands
-**package-lock.json**
-locks the version of all packages, so that anyone who clones our repo and runs
-npm install has the same dependencies and sub-dependencies, making it reproduceable.
-**requirements.txt**
-specifies python dependencies. may not be needed.
-**database folder**
-houses all the .sql and database management
-**frontend folder**
-all the frontend gui, including the typescript
-- index.html:
-    the starting point for every user.
-- tsconfig.json:
-    configures the tss compilation to js, speficy;s versions etc.
-- dist folder:
-    houses all the compiled javascript from ts
-- src:
-    the typescript folder and resources.
-    app.ts - the main ts associated with index.html
-    components folder
-        - smaller .ts files to break down the typescript into
-            manageable chunks.
-- styles:
-    all the .css and styling code for the GUI's.
+##### Root Files
+- **package.json**: Contains the metadata, dependencies, scripts and npm build commands
+- **package-lock.json**: Locks the version of all packages for consistent dependencies across installs
+- **requirements.txt**: Specifies python dependencies for backend
 
-**backend folder**
-houses the code for the application
-- ?python main application code
-- env.example file - how the .env file should be setup and
-- .env file; secure api key storage for third party API's
+##### `database/`
+- Contains `.sql` files and database management scripts
 
+##### `frontend/`
+- Contains the frontend gui, including typescript
+
+    - **index.html**: The entry point for every user.
+    - **tsconfig.json**: Configures Typescript compilation to javascript, and sets version specification
+    - **dist/**: Houses all the compiled javascript from ts
+    - **src/**: Contains Typescript source code and resources.
+        -**app.ts**: Main Typescript file associated with `index.html`
+        - **components/**: Smaller `.ts` files to break down the typescript into manageable chunks.
+    - **styles/**:Contains all the `.css` and styling code for the GUI.
+
+##### `backend/`
+- Contains the code for the application backend
+
+    - **inspection_scheduling**: main application code
+    - **api_utils**: Contains functions for API calls to external services
+    - **env.example**: how the .env file should be setup
+    - **.env file**: For secure storage of API keys
 
 
 </details>
