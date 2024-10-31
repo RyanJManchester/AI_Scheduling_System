@@ -18,14 +18,34 @@ INSERT INTO Qualification (code) VALUES
 INSERT INTO Inspector_Qualification (inspector_id, qualification_code) VALUES 
     ((SELECT id FROM Inspector WHERE name = 'John Doe'), 'R1'),
     ((SELECT id FROM Inspector WHERE name = 'John Doe'), 'C1'),
+    
     ((SELECT id FROM Inspector WHERE name = 'Jane Smith'), 'R2'),
     ((SELECT id FROM Inspector WHERE name = 'Jane Smith'), 'C2'),
+    ((SELECT id FROM Inspector WHERE name = 'Jane Smith'), 'R1'),  
+    ((SELECT id FROM Inspector WHERE name = 'Jane Smith'), 'C1'),
+
     ((SELECT id FROM Inspector WHERE name = 'Michael Brown'), 'R3'),
     ((SELECT id FROM Inspector WHERE name = 'Michael Brown'), 'C3'),
+    ((SELECT id FROM Inspector WHERE name = 'Michael Brown'), 'R2'),  
+    ((SELECT id FROM Inspector WHERE name = 'Michael Brown'), 'C2'),  
+    ((SELECT id FROM Inspector WHERE name = 'Michael Brown'), 'R1'),  
+    ((SELECT id FROM Inspector WHERE name = 'Michael Brown'), 'C1'),  
+    
     ((SELECT id FROM Inspector WHERE name = 'Emily Clark'), 'R4'),
     ((SELECT id FROM Inspector WHERE name = 'Emily Clark'), 'C4'),
+    ((SELECT id FROM Inspector WHERE name = 'Emily Clark'), 'R3'), 
+    ((SELECT id FROM Inspector WHERE name = 'Emily Clark'), 'C3'), 
+    ((SELECT id FROM Inspector WHERE name = 'Emily Clark'), 'R2'), 
+    ((SELECT id FROM Inspector WHERE name = 'Emily Clark'), 'C2'), 
+    ((SELECT id FROM Inspector WHERE name = 'Emily Clark'), 'R1'), 
+    ((SELECT id FROM Inspector WHERE name = 'Emily Clark'), 'C1'), 
+    
     ((SELECT id FROM Inspector WHERE name = 'Daniel Lee'), 'R2'),
-    ((SELECT id FROM Inspector WHERE name = 'Daniel Lee'), 'C3');
+    ((SELECT id FROM Inspector WHERE name = 'Daniel Lee'), 'C3'),
+    ((SELECT id FROM Inspector WHERE name = 'Daniel Lee'), 'R1'),
+    ((SELECT id FROM Inspector WHERE name = 'Daniel Lee'), 'C2'),
+    ((SELECT id FROM Inspector WHERE name = 'Daniel Lee'), 'C1');
+
 
 INSERT INTO Building_Consent (bc_number, level, location) VALUES 
     (1, 'R1', '1 Smith Street, Hamilton');
