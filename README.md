@@ -4,31 +4,34 @@
 
 <details>
 
-### Creating and Populating SQLite Tables Using SQL Files
+### Creating and Populating PostgreSQL Tables Using SQL Files
 
-### Step 1: Ensure SQLite is Installed
+#### Step 1: Ensure SQLite is Installed
 
-Before proceeding, ensure that the SQLite executable is downloaded and accessible. You can download it from the [SQLite official website](https://www.sqlite.org/download.html). Follow the installation instructions for your operating system.
+Make sure PostgreSQL is installed and accessible. You can download it from the [PostgreSQL official website](https://www.postgresql.org/download/) and follow the installation instructions for your operating system.
 
-### Step 2: Open Command Line or Terminal
+
+#### Step 2: Open Command Line or Terminal
 
 Open your command line (Windows Command Prompt, or Terminal on macOS/Linux).
 
-### Step 3: Launch SQLite
+#### Step 3: Connect to PostgreSQL
 
-Navigate to the directory where your SQLite executable is located (if it’s not in your PATH). Use the `cd` command to change directories.
-
-Start SQLite with the following command:
+**Connect to PostgreSQL**: Use the `psql` command to connect to your PostgreSQL database. Replace `your_username` and `your_database_name` with your PostgreSQL username and database name:
+   ```bash
+    psql -U your_username -d your_database_name
+   ```
+#### Step 4. Execute SQL scripts
 
 ```bash
-sqlite3 inspection_scheduling_system.db
-#once inside SQLite db
-.read path_to_your_file/init_tables.sql
-.read path_to_your_file/populate_tables.sql
-.tables #optional: to list tables
-select * from Inspector #optional: list inspectors in Inspector table
-.exit #exit SQLite
+    \i 'path_to_your_file/init_tables.sql'
+    \i 'path_to_your_file/populate_tables.sql'
+
+    \dt #optional: list tables
+    select * from inspector; #optional: check data in inspector table
+    \q #exits postgres
 ```
+
 </details>
 
 ### Folder Structure

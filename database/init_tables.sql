@@ -1,5 +1,5 @@
 create table Inspector (
-    id integer primary key autoincrement,
+    id serial primary key,
     name text not null,
     email text not null unique check(
         email like '%_@__%.com'
@@ -21,13 +21,13 @@ create table Inspector_Qualification (
 );
 
 create table Building_Consent(
-    bc_number integer primary key,
+    bc_number serial primary key,
     level text not null,
     location text not null
 );
 
 create table Inspection (
-    id integer primary key autoincrement,
+    id serial primary key,
     bc_number integer not null,
     description text not null,
     date text,
