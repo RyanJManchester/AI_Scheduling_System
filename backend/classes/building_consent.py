@@ -103,19 +103,19 @@ class BuildingConsent:
         return self._location
 
 
-## Example Usage
+# ## Example Usage
 
-# Adding a new building consent
-consent = BuildingConsent(bc_number=1, level="R1", location="1 Smith Street", db_params=db_params)
-consent.save() 
+# # Adding a new building consent
+# consent = BuildingConsent(bc_number=1, level="R1", location="1 Smith Street", db_params=db_params)
+# consent.save() 
 
-# Fetching an existing building consent
-fetched_consent = BuildingConsent.fetch_from_db(bc_number=1, db_params=db_params)
-print(f"Fetched Consent: {fetched_consent.level}, {fetched_consent.location}")
+# # Fetching an existing building consent
+# fetched_consent = BuildingConsent.fetch_from_db(bc_number=1, db_params=db_params)
+# print(f"Fetched Consent: {fetched_consent.level}, {fetched_consent.location}")
 
-# Updating the level and location
-fetched_consent.update(level="R2", location="2 Smith Street")
-print(f"Updated Consent: {fetched_consent.level}, {fetched_consent.location}")
+# # Updating the level and location
+# fetched_consent.update(level="R2", location="2 Smith Street")
+# print(f"Updated Consent: {fetched_consent.level}, {fetched_consent.location}")
 
-# Deleting the building consent
-fetched_consent.delete()
+# # Deleting the building consent
+# fetched_consent.delete()
