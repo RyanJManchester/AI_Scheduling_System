@@ -2,7 +2,7 @@ import pyscopg2
 from psycopg2 import sql
 
 class BuildingConsent:    
-    def __init__(self, bc_number=None, level=None, location=None, db_params=None):
+    def __init__(self, bc_number, level=None, location=None, db_params=None):
         """
         Initialize a BuildingConsent instance, either with new data or from an existing record in the database.
         """
