@@ -24,13 +24,21 @@ Open your command line (Windows Command Prompt, or Terminal on macOS/Linux).
 #### Step 4. Execute SQL scripts
 
 ```bash
-    \i 'path_to_your_file/init_tables.sql'
-    \i 'path_to_your_file/populate_tables.sql'
-
-    \dt #optional: list tables
-    select * from inspector; #optional: check data in inspector table
-    \q #exits postgres
+createdb inspection_scheduling
+psql -d inspection_scheduling
 ```
+
+3. Once inside, run the SQL files to create and poppulate tables
+```bash
+\i path_to_your_file/init_tables.sql
+\i path_to_your_file/populate_tables.sql
+\i path_to_your_file/views_and_procedures.sql
+\dt #optional: list the tables in the db
+select * from inspector; #optional: check data in inspector table
+\q #exit postgres
+```
+
+
 
 </details>
 
@@ -61,7 +69,7 @@ Open your command line (Windows Command Prompt, or Terminal on macOS/Linux).
 ##### `backend/`
 - Contains the code for the application backend
 
-    - **inspection_scheduling**: main application code
+    - **inspection_scheduling**: Contains functions for the processes required to schedule an inspection
     - **api_utils**: Contains functions for API calls to external services
     - **env.example**: how the .env file should be setup
     - **.env file**: For secure storage of API keys

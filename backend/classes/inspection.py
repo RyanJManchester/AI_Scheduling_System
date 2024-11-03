@@ -2,7 +2,7 @@ import pyscopg2
 from psycopg2 import sql
 
 class Inspection:
-    def __init__(self, id=None, bc_number=None, description=None, date=None, time=None, inspector_id=None, status="Scheduled", order=None, db_params=None):
+    def __init__(self, id=None, bc_number=None, description=None, date=None, start_time=None, end_time=None, inspector_id=None, status="Scheduled", order=None, db_params=None):
         """
         Initialize an Inspection instance, either with new data or from an existing record in the database.
         """
@@ -10,7 +10,8 @@ class Inspection:
         self.bc_number = bc_number
         self.description = description
         self.date = date
-        self.time = time
+        self.start_time = start_time
+        self.end_time = end_time
         self.inspector_id = inspector_id
         self.status = status
         self.order = order
@@ -33,13 +34,13 @@ class Inspection:
         if exists:
             # update existing record with id
             cursor.execute("""
-                UPDATE Inspection SET bc_number = %s, description = %s, date = %s, time = %s, inspector_id = %s, status = %s, order = %s WHERE id = %s
-                """,(self.bc_number, self.description, self.date, self.time, self.inspector_id, self.status, self.order, self.id))
+                UPDATE Inspection SET bc_number = %s, description = %s, date = %s, start_time = %s, end_time=%s, inspector_id = %s, status = %s, order = %s WHERE id = %s
+                """,(self.bc_number, self.description, self.date, self.start_time, self.end_time, self.inspector_id, self.status, self.order, self.id))
         else:
             # insert new record
             cursor.execute("""
-                INSERT INTO Inspection (bc_number, description, date, time, inspector_id, status) VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id
-                """, (self.bc_number, self.description, self.date, self.time, self.inspector_id, self.status, self.order))
+                INSERT INTO Inspection (bc_number, description, date, time, inspector_id, status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
+                """, (self.bc_number, self.description, self.date, self.start_time, self.end_time, self.inspector_id, self.status, self.order))
             self.id = cursor.fetchone()[0] #set ID from newly created record
 
         conn.commit()
@@ -65,10 +66,11 @@ class Inspection:
                 bc_number=result[1],
                 description=result[2],
                 date=result[3],
-                time=result[4],
-                inspector_id=result[5],
-                status=result[6],
-                order=result[7],  
+                start_time=result[4],
+                end_time=result[5],
+                inspector_id=result[6],
+                status=result[7],
+                order=result[8],  
                 db_params=db_params
             )
         else:
@@ -90,7 +92,7 @@ class Inspection:
         cursor.close()
         conn.close()
 
-    def update(self, bc_number=None, description=None, date=None, time=None, inspector_id=None, status=None, order=None):
+    def update(self, bc_number=None, description=None, date=None, start_time=None,  end_time=None, inspector_id=None, status=None, order=None):
         """
         Update this Inspection's attributes.
         """
@@ -100,8 +102,10 @@ class Inspection:
             self.description = description
         if date is not None:
             self.date = date
-        if time is not None:
-            self.time = time
+        if start_time is not None:
+            self.start_time = start_time
+        if end_time is not None:
+            self.end_time = end_time
         if inspector_id is not None:
             self.inspector_id = inspector_id
         if status is not None:
@@ -128,8 +132,12 @@ class Inspection:
         return self._date
 
     @property
-    def time(self):
-        return self._time
+    def start_time(self):
+        return self._start_time
+    
+    @property
+    def end_time(self):
+        return self._end_time
 
     @property
     def inspector_id(self):
