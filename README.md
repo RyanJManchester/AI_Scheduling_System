@@ -4,31 +4,38 @@
 
 <details>
 
-#### Creating and Populating SQLite Tables Using SQL Files
+#### Creating and Populating PostgreSQL Using SQL Files
 
-##### Step 1: Ensure SQLite is Installed
+##### Step 1: Ensure postgresql in installed
 
-Before proceeding, ensure that the SQLite executable is downloaded and accessible. You can download it from the [SQLite official website](https://www.sqlite.org/download.html). Follow the installation instructions for your operating system.
+Before proceeding, ensure that Postgressql. You can download it from the [PostgreSQL Download](https://www.sqlite.org/download.html). Follow the installation instructions to donwload it on an ubuntu server.
 
-##### Step 2: Open Command Line or Terminal
+##### Step 2: Launch PostgreSQL
 
-Open your command line (Windows Command Prompt, or Terminal on macOS/Linux).
-
-##### Step 3: Launch SQLite
-
-Navigate to the directory where your SQLite executable is located (if it’s not in your PATH). Use the `cd` command to change directories.
-
-Start SQLite with the following command:
+1. Start by opening the PostgreSQL command line tool (psql). If you are not logged in as the PostgreSQL user, you may need to switch to the PostgreSQL user. Use the following command:
 
 ```bash
-sqlite3 inspection_scheduling_system.db
-#once inside SQLite db
-.read path_to_your_file/init_tables.sql
-.read path_to_your_file/populate_tables.sql
-.tables #optional: to list tables
-select * from Inspector #optional: list inspectors in Inspector table
-.exit #exit SQLite
+sudo -i -u postgres
 ```
+2. Create a new database and connect to it
+
+```bash
+createdb inspection_scheduling
+psql -d inspection_scheduling
+```
+
+3. Once inside, run the SQL files to create and poppulate tables
+```bash
+\i path_to_your_file/init_tables.sql
+\i path_to_your_file/populate_tables.sql
+\i path_to_your_file/views_and_procedures.sql
+\dt #optional: list the tables in the db
+select * from inspector; #optional: check data in inspector table
+\q #exit postgres
+```
+
+
+
 </details>
 
 ### Folder Structure
@@ -58,7 +65,7 @@ select * from Inspector #optional: list inspectors in Inspector table
 ##### `backend/`
 - Contains the code for the application backend
 
-    - **inspection_scheduling**: main application code
+    - **inspection_scheduling**: Contains functions for the processes required to schedule an inspection
     - **api_utils**: Contains functions for API calls to external services
     - **env.example**: how the .env file should be setup
     - **.env file**: For secure storage of API keys

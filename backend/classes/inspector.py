@@ -65,6 +65,30 @@ class Inspector:
         else:
             raise ValueError(f"Inspector with ID {inspector_id} not found.")
         
+    @classmethod
+    def get_schedule_for_date(cls, inspector_id, date, db_params):
+        """
+        gets the schedule for an inspector on a specific date
+        """
+        conn = psycopg2.connect(**db_params)
+        cursor = conn.cursor()
+
+        query="""
+                select * from InspectorScheduleView where inspector_id = %s and date = %s
+            """
+        
+        cursor.execute(query, (inspector_id, date))
+        schedule = cursor.fetchall()
+
+        #convert schedule to list of dict for handling
+        columns = [desc[0] for desc in cursor.description]
+        result = [dict(zip(columns, row)) for row in schedule]
+
+        cursor.close()
+        conn.close()
+
+        return result
+
     def delete(self):
         """
         Delete this Inspector from the database.
