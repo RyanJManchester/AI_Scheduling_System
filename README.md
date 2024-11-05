@@ -72,7 +72,13 @@ houses the code for the application
 
 </details>
 
-### Commands
+#### Commands
+
+to get a list of commands, run:
+
+```bash
+npm run
+```
 
 <details>
 
