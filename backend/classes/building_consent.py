@@ -6,9 +6,9 @@ class BuildingConsent:
         """
         Initialize a BuildingConsent instance, either with new data or from an existing record in the database.
         """
-        self.bc_number = bc_number
-        self.level = level
-        self.location = location
+        self._bc_number = bc_number
+        self._level = level
+        self._location = location
         self.db_params = db_params
 
     def save(self):
