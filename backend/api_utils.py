@@ -1,21 +1,29 @@
 from dotenv import load_dotenv
 import os
-from classes import BuildingConsent, Inspection, Inspector
+from classes.building_consent import BuildingConsent
 import openai
+import requests
 
 
 #region KEYS #################################-
-load_dotenv(dotenv_path='.env')
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), './setup/.env'))
 
 # Set API keys
 openai.api_key = os.getenv("OPEN_AI_KEY")
 visual_weather_key = os.getenv("VISUAL_CROSSING_KEY")
 open_route_key = os.getenv("OPEN_ROUTE_KEY")
 
+db_params = {
+    'dbname': os.getenv("DB_NAME"),
+    'user': os.getenv("DB_USER"),
+    'password': os.getenv("DB_PASSWORD"),
+    'host': os.getenv("DB_HOST"),
+    'port': os.getenv("DB_PORT"),
+}
 
 bc_number = 1 #example bc number
 #fetch building consent from database, returning a tuple of (bc_number, level, location)
-consent = BuildingConsent.fetch_from_db(bc_number, os.getenv("DB_PARAMS"))
+consent = BuildingConsent.fetch_from_db(bc_number, db_params)
 
 #endregion ###################################
 
@@ -84,14 +92,11 @@ def fetch_open_distance_data(start="Morrinsville", end="180 Knighton Road"):
     Fetches the travel distance in kilometers and duration from the Open Route Service API.
     """
 
-    print("Fetching coordinates for the start location...")
     start_coords = fetch_coordinates(start)
-    print("Fetching coordinates for the end location...")
     end_coords = fetch_coordinates(end)
 
     url = f"https://api.openrouteservice.org/v2/directions/driving-car?api_key={open_route_key}&start={start_coords[0]},{start_coords[1]}&end={end_coords[0]},{end_coords[1]}"
 
-    print("Fetching travel distance and duration from API...")
     response = requests.get(url)
 
     if response.status_code == 200:

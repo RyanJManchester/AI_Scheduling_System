@@ -1,4 +1,4 @@
-import pyscopg2
+import psycopg2
 from psycopg2 import sql
 
 class Inspector: 
@@ -6,11 +6,11 @@ class Inspector:
         """
         Initialize an Inspector instance, either with new data or from an existing record in the database.
         """
-        self.id = id
-        self.name = name
-        self.email = email
-        self.residential_quals = residential_qual
-        self.commercial_quals = commercial_qual 
+        self._id = id
+        self._name = name
+        self._email = email
+        self._residential_qual = residential_qual
+        self._commercial_qual = commercial_qual 
         self.db_params = db_params
 
     
@@ -52,16 +52,13 @@ class Inspector:
         conn = psycopg2.connect(**db_params)
         cursor = conn.cursor()
 
-        cursor.execute("SELECT id, name, email FROM Inspector WHERE id = %s", (inspector_id,))
+        cursor.execute("SELECT id, name, email, residential_qual, commercial_qual FROM Inspector WHERE id = %s", (inspector_id,))
         result = cursor.fetchone()
         cursor.close()
         conn.close()
 
         if result:
-            # Split qualifications into lists
-            residential_quals = result[3].split(',') if result[3] else []
-            commercial_quals = result[4].split(',') if result[4] else []
-            return cls(id=result[0], name=result[1], email=result[2], residential_quals=residential_quals, commercial_quals=commercial_quals, db_params=db_params)
+            return cls(id=result[0], name=result[1], email=result[2], residential_qual=result[3], commercial_qual=result[4], db_params=db_params)
         else:
             raise ValueError(f"Inspector with ID {inspector_id} not found.")
         
@@ -74,9 +71,8 @@ class Inspector:
         cursor = conn.cursor()
 
         query="""
-                select * from InspectorScheduleView where inspector_id = %s and date = %s
+                SELECT * FROM InspectorScheduleView where inspector_id = %s and inspection_date = %s
             """
-        
         cursor.execute(query, (inspector_id, date))
         schedule = cursor.fetchall()
 
@@ -121,23 +117,23 @@ class Inspector:
         self.save()
 
     @property
-    def get_id(self):
-        return self.id
+    def id(self):
+        return self._id
 
     @property
-    def get_name(self):
-        return self.name
+    def name(self):
+        return self._name
 
     @property
-    def get_email(self):
-        return self.email
+    def email(self):
+        return self._email
     
     @property
-    def get_residential_quals(self):
-        return self.residential_quals
+    def residential_qual(self):
+        return self._residential_qual
 
     @property
-    def get_commercial_quals(self):
-        return self.commercial_quals
+    def commercial_qual(self):
+        return self._commercial_qual
     
         

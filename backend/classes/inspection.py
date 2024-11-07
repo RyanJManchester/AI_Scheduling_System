@@ -1,4 +1,4 @@
-import pyscopg2
+import psycopg2
 from psycopg2 import sql
 
 class Inspection:
@@ -6,15 +6,15 @@ class Inspection:
         """
         Initialize an Inspection instance, either with new data or from an existing record in the database.
         """
-        self.id = id
-        self.bc_number = bc_number
-        self.description = description
-        self.date = date
-        self.start_time = start_time
-        self.end_time = end_time
-        self.inspector_id = inspector_id
-        self.status = status
-        self.order = order
+        self._id = id
+        self._bc_number = bc_number
+        self._description = description
+        self._date = date
+        self._start_time = start_time
+        self._end_time = end_time
+        self._inspector_id = inspector_id
+        self._status = status
+        self._order = order
         self.db_params = db_params
 
     def save(self):

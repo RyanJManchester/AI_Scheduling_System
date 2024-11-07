@@ -1,4 +1,4 @@
-backend/.env
+backend/setup/.env
 frontend/dist/*
 database
 node_modules/*
