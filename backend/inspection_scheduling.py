@@ -176,28 +176,45 @@ def get_distances(inspector_availability, inspection_location):
     print(inspector_distance_info_list)
     return inspector_distance_info_list
 
+def parse_duration(duration_str):
+    """
+    Converts durations from 'x hours, y minute' into total minutes
+    """
+    hours, minutes = 0, 0
+    duration_array = duration_str.split(',')
+
+    if "hours" in duration_array[0]:
+        hours = int(duration_array[0].split()[0])
+    if len(duration_array) > 1 and "minutes" in duration_array[1]:
+        minutes = int(duration_array[1].split()[0])
+    return hours*60 + minutes
+
+
 
 def get_suggestions(inspector_distance_info_list, inspector_availability):
     """
     Generate the top 3 time slot suggestions for inspections based on these factors:
-    1. Sort by shortest travel time
-    2. Prioritizing longest availbility gaps for each inspector (ensuring some spread of work across inspectors)
-    3. Time variability in suggestions
+    1. Shortest travel time
+    2. Longest availability gaps for each inspector
+    3. Varied times in suggestions for time diversity
+    4. Balanced workload across inspectors
     """
-    #sort inspectors by shortest duration
-    sorted_distances = sorted(inspector_distance_info_list, key=lambda x: x['duration'])
+    #flatten nested list and sort by shorttest duration
+    flattened_inspector_info = [info for sublist in inspector_distance_info_list for info in sublist]
+    sorted_distances = sorted(flattened_inspector_info, key=lambda x: parse_duration(x['duration']))
 
     suggestions = []
 
-    for inspector_info in inspector_distance_info_list:
+    #go through each inspector based on the shrtest travel time
+    for inspector_info in sorted_distances:
         inspector_id = inspector_info['inspector_id']
-        travel_duration = inspector_info['duration']
+        travel_duration = parse_duration(inspector_info['duration'])
         distance = inspector_info['distance']
 
-        # Sort each inspector's available slots by longest duration, ensuring inspectors with larger time gaps in their schedules are considered first
+        #sort available timeslots by longest duration
         available_slots = sorted(inspector_availability[inspector_id], 
-                                 key=lambda slot: slot['end'] - slot['start'], 
-                                 reverse=True)  
+                                key=lambda slot: (datetime.combine(datetime.today(), slot['end']) - datetime.combine(datetime.today(), slot['start'])), 
+                                reverse=True)
 
         for slot in available_slots:
             #calculate adjusted start time by adding the travel duration
@@ -206,16 +223,21 @@ def get_suggestions(inspector_distance_info_list, inspector_availability):
 
             #ensure the adjusted slot accounts for the minimum 2 hour inspection time
             if end_time - adjusted_start_time >= timedelta(hours=2):
+                # Adjust start time to introduce a varied start time (30 min to 1 hour range)
+                varied_start_time = adjusted_start_time + timedelta(minutes=(30 if len(suggestions) % 2 == 0 else 60))
                 adjusted_slot = {
                     "inspector_id": inspector_id,
-                    "distance": inspector_info['distance'],
+                    "distance": distance,
                     "duration": travel_duration,
-                    "adjusted_time_slot": (adjusted_start_time.time(), end_time.time())
+                    "adjusted_time_slot": (varied_start_time.time(), end_time.time())
                 }
 
                 #if add to suggestions if there's at least a 30 min difference from other suggestions
                 if all(abs((adjusted_start_time - datetime.combine(datetime.today(), s['adjusted_time_slot'][0])).total_seconds()) >= 1800 for s in suggestions):
                     suggestions.append(adjusted_slot)
+                    #stop if 3 suggestions is reached
+                    if len(suggestions) >= 3:
+                        return suggestions
 
     return suggestions
 
