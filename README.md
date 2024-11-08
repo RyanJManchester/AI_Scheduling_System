@@ -6,7 +6,7 @@
 
 ### Creating and Populating PostgreSQL Tables Using SQL Files
 
-#### Step 1: Ensure SQLite is Installed
+#### Step 1: Ensure Postgres is Installed
 
 Make sure PostgreSQL is installed and accessible. You can download it from the [PostgreSQL official website](https://www.postgresql.org/download/) and follow the installation instructions for your operating system.
 
