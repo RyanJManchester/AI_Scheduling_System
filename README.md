@@ -34,24 +34,7 @@ psql -d inspection_scheduling
 \dt #optional: list the tables in the db
 select * from inspector; #optional: check data in inspector table
 \q #exit postgres
-createdb inspection_scheduling
-psql -d inspection_scheduling
 ```
-
-3. Once inside, run the SQL files to create and poppulate tables
-```bash
-\i path_to_your_file/init_tables.sql
-\i path_to_your_file/populate_tables.sql
-\i path_to_your_file/views_and_procedures.sql
-\dt #optional: list the tables in the db
-select * from inspector; #optional: check data in inspector table
-\q #exit postgres
-```
-
-
-
-
-
 
 </details>
 
@@ -60,24 +43,6 @@ select * from inspector; #optional: check data in inspector table
 <details>
     <summary> Details about the folder structure for the repository</summary>
 
-##### Root Files
-- **package.json**: Contains the metadata, dependencies, scripts and npm build commands
-- **package-lock.json**: Locks the version of all packages for consistent dependencies across installs
-- **requirements.txt**: Specifies python dependencies for backend
-
-##### `database/`
-- Contains `.sql` files and database management scripts
-
-##### `frontend/`
-- Contains the frontend gui, including typescript
-
-    - **index.html**: The entry point for every user.
-    - **tsconfig.json**: Configures Typescript compilation to javascript, and sets version specification
-    - **dist/**: Houses all the compiled javascript from ts
-    - **src/**: Contains Typescript source code and resources.
-        -**app.ts**: Main Typescript file associated with `index.html`
-        - **components/**: Smaller `.ts` files to break down the typescript into manageable chunks.
-    - **styles/**:Contains all the `.css` and styling code for the GUI.
 ##### Root Files
 - **package.json**: Contains the metadata, dependencies, scripts and npm build commands
 - **package-lock.json**: Locks the version of all packages for consistent dependencies across installs

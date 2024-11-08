@@ -2,3 +2,4 @@ backend/setup/.env
 frontend/dist/*
 database
 node_modules/*
+*.pyc
