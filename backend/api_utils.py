@@ -5,7 +5,7 @@ import openai
 import requests
 
 
-#region KEYS #################################-
+#region KEYS #################################
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), './setup/.env'))
 
 # Set API keys
