@@ -10,20 +10,30 @@
 
 Make sure PostgreSQL is installed and accessible. You can download it from the [PostgreSQL official website](https://www.postgresql.org/download/) and follow the installation instructions for your operating system.
 
+Before proceeding, ensure that Postgressql. You can download it from the [PostgreSQL Download](https://www.sqlite.org/download.html). Follow the installation instructions to donwload it on an ubuntu server.
 
-#### Step 2: Open Command Line or Terminal
+##### Step 2: Launch PostgreSQL
 
-Open your command line (Windows Command Prompt, or Terminal on macOS/Linux).
-
-#### Step 3: Connect to PostgreSQL
-
-**Connect to PostgreSQL**: Use the `psql` command to connect to your PostgreSQL database. Replace `your_username` and `your_database_name` with your PostgreSQL username and database name:
-   ```bash
-    psql -U your_username -d your_database_name
-   ```
-#### Step 4. Execute SQL scripts
+1. Start by opening the PostgreSQL command line tool (psql). If you are not logged in as the PostgreSQL user, you may need to switch to the PostgreSQL user. Use the following command:
 
 ```bash
+sudo -i -u postgres
+```
+2. Create a new database and connect to it
+
+```bash
+createdb inspection_scheduling
+psql -d inspection_scheduling
+```
+
+3. Once inside, run the SQL files to create and poppulate tables
+```bash
+\i path_to_your_file/init_tables.sql
+\i path_to_your_file/populate_tables.sql
+\i path_to_your_file/views_and_procedures.sql
+\dt #optional: list the tables in the db
+select * from inspector; #optional: check data in inspector table
+\q #exit postgres
 createdb inspection_scheduling
 psql -d inspection_scheduling
 ```
@@ -40,6 +50,9 @@ select * from inspector; #optional: check data in inspector table
 
 
 
+
+
+
 </details>
 
 ### Folder Structure
@@ -47,6 +60,24 @@ select * from inspector; #optional: check data in inspector table
 <details>
     <summary> Details about the folder structure for the repository</summary>
 
+##### Root Files
+- **package.json**: Contains the metadata, dependencies, scripts and npm build commands
+- **package-lock.json**: Locks the version of all packages for consistent dependencies across installs
+- **requirements.txt**: Specifies python dependencies for backend
+
+##### `database/`
+- Contains `.sql` files and database management scripts
+
+##### `frontend/`
+- Contains the frontend gui, including typescript
+
+    - **index.html**: The entry point for every user.
+    - **tsconfig.json**: Configures Typescript compilation to javascript, and sets version specification
+    - **dist/**: Houses all the compiled javascript from ts
+    - **src/**: Contains Typescript source code and resources.
+        -**app.ts**: Main Typescript file associated with `index.html`
+        - **components/**: Smaller `.ts` files to break down the typescript into manageable chunks.
+    - **styles/**:Contains all the `.css` and styling code for the GUI.
 ##### Root Files
 - **package.json**: Contains the metadata, dependencies, scripts and npm build commands
 - **package-lock.json**: Locks the version of all packages for consistent dependencies across installs
