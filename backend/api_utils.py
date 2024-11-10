@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 import os
 from classes.building_consent import BuildingConsent
-import openai
+from openai import OpenAI
 import requests
 
 
@@ -9,7 +9,7 @@ import requests
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), './setup/.env'))
 
 # Set API keys
-openai.api_key = os.getenv("OPEN_AI_KEY")
+# OpenAI.api_key = os.getenv("OPEN_AI_KEY")
 visual_weather_key = os.getenv("VISUAL_CROSSING_KEY")
 open_route_key = os.getenv("OPEN_ROUTE_KEY")
 
@@ -32,35 +32,39 @@ context =  """*Context**: you are an AI model for scheduling council building in
             If the user asks about something irrelevant, consider providing an answer but remind them you're focused on helping them for booking inspections.
             Response: Always format your response as if it will be used as inner.html, without backquotes etc."""
 
-def getResponse(message):
+def getResponse(message, context=context):
     """
     Generates a response from OpenAI's GPT model.
     """
-    response = openai.ChatCompletion.create(
+    client = OpenAI()
+    completion = client.chat.completions.create(
         model="gpt-4o-mini",  # Specify the model name
-        messages=[{"role": "system", "content": message}],  # Set the message content
+        messages=[
+            {"role": "system", "content": context}, 
+            {"role": "user", "content": message}
+            ], 
         max_tokens=700,  # Limit the response to a maximum of 700 tokens
         temperature=0.3,  # Set the temperature for randomness in generation
         frequency_penalty=0,  # Control the penalty for repeated tokens
         presence_penalty=0  # Control the penalty for new topic introduction
     )
     # Return the content of the first choice from the response
-    return response["choices"][0]["message"]["content"]
+    return completion.choices[0].message
 
 def getBoolResponse(message):
     """
     Returns a boolean response from the model based on the message.
     """
-    result = getResponse(message + ".\nONLY reply with 'yes' or 'no.'")
+    result = getResponse(message, "ONLY reply with 'yes' or 'no.'")
     return result.lower() == "yes" #return true if yes, else false
 
 
-def getHTMLResponse(message):
-    """
-    Generates an HTML response from OpenAI's GPT model.
-    """
-    # Add the context to the input message
-    return getResponse(context + message)
+# def getHTMLResponse(message, context):
+#     """
+#     Generates an HTML response from OpenAI's GPT model.
+#     """
+#     # Add the context to the input message
+#     return getResponse(context,message)
 
 #endregion  ##################################
 
